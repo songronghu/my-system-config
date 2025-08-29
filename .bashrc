@@ -259,14 +259,3 @@ fi
 export PATH=/usr/bin:$PATH
 export MCS=/usr/bin/mcs
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib/mono/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
-#export ANTHROPIC_AUTH_TOKEN=sk-YnSW5qWn5P3iH1BRl9D931VmpCWiNdOKIkuVD7aCEWgRsh8F
-#export ANTHROPIC_BASE_URL=https://anyrouter.top
-#export ANTHROPIC_BASE_URL=https://pmpjfbhq.cn-nb1.rainapp.top
-#export ANTHROPIC_AUTH_TOKEN=sk-nuDdZIVWApi81yEVlJpHGKBTmagilVsRj6WhPMV7gNKJyi1L
-#export ANTHROPIC_BASE_URL=https://yunwu.ai
-export OPENAI_API_KEY=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
-export OPENAI_API_BASE_URL=https://openrouter.ai/api/v1
-export OPENAI_MODEL=qwen/qwen3-coder:free
-export PATH=/home/ronghusong/.emacs.d.20250724/share/eclipse.jdt.ls/bin:$PATH
-export INFOPATH=$INFOPATH:/usr/share/info/emacs
-. "/home/ronghusong/.deno/env"
