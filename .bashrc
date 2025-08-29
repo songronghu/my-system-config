@@ -259,3 +259,8 @@ fi
 export PATH=/usr/bin:$PATH
 export MCS=/usr/bin/mcs
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib/mono/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
+
+export PATH=/home/ronghusong/.emacs.d.bhj/share/eclipse.jdt.ls/bin:$PATH
+export INFOPATH=$INFOPATH:/usr/share/info/emacs
+. "/home/ronghusong/.deno/env"
+
