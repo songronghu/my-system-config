@@ -266,48 +266,6 @@ elif type complete >/dev/null 2>&1; then
     }
 fi
 
-# function zcd {
-#     if [[ -z "$1" ]]; then
-#         command cd "$1"
-#         return
-#     fi
-
-#     # 获取 `z` 匹配的目录列表（带评分）
-#     local result
-#     result=$(z -l "$1" | awk '!/common:/ {print $2}')
-
-#     # 统计匹配项数量
-#     local match_count=$(echo "$result" | wc -l)
-
-#     if [[ "$match_count" -eq 0 ]]; then
-#         # `z` 里没有记录，尝试直接 cd 进入
-#         if [[ -d "$1" ]]; then
-#             cd "$1"
-#             return
-#         else
-#             echo "No matching directory found in z history or filesystem."
-#             return 1
-#         fi
-#     elif [[ "$match_count" -eq 1 ]]; then
-#         # 只有一个匹配项，直接跳转
-#         local dir=$(echo "$result" | head -n 1)
-#         cd "$dir"
-#         return
-#     fi
-
-#     # 为目录列表编号
-#     local numbered_list=$(echo "$result" | nl -w2 -s'  ')
-
-#     # 让用户选择目录，支持输入数字或 `fzf`
-#     local selection=$(echo "$numbered_list" | fzf --height=40% --reverse --prompt="Select Directory: " )
-
-#     # 提取用户选择的目录
-#     if [[ -n "$selection" ]]; then
-#         local selected_index=$(echo "$selection" | awk '{print $1}')  # 获取编号
-#         local selected_dir=$(echo "$result" | sed -n "${selected_index}p")  # 获取编号对应的目录
-#         cd "$selected_dir"
-#     fi
-# }
 function zcd {
     # 获取用户输入的目录名
     local target="$1"
@@ -324,12 +282,14 @@ function zcd {
         return
     fi
 
-    # 获取 `z` 匹配的目录列表（带评分）
+    # 获取 `z` 匹配的目录列表（带评分),用$@支持多关键词
     local result
-    result=$(z -l "$target" | awk '!/common:/ {print $2}')
+    #result=$(z -l "$target" | awk '!/common:/ {print $2}')
+    result=$(z -l "$@" | awk '!/common:/ {print $2}')
 
     # 统计匹配项数量
-    local match_count=$(echo "$result" | wc -l)
+    #local match_count=$(echo "$result" | wc -l)
+    local match_count=$(echo "$result" | grep -c .)
 
     if [[ "$match_count" -eq 0 ]]; then
         # `z` 里没有记录，尝试直接 cd 进入

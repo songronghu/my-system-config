@@ -124,8 +124,8 @@ export NVM_DIR="$HOME/.nvm"
 
 export GDAL_HOME=/usr/local/gdal
 #export JAVA_HOME=/home/ronghusong/app/jdk1.8.0_333
-#export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+#export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 export MAVEN_HOME=/home/ronghusong/software/install_package/apache-maven-3.9.7
 
 export PATH=$JAVA_HOME/bin:$GDAL_HOME/bin:$MAVEN_HOME/bin:$PATH
@@ -211,7 +211,8 @@ _ssh_fzf_complete() {
 # 绑定 C-x C-s 键到 SSH 补全，但不影响其他命令
 bind -x '"\es\es": _ssh_fzf_complete'
 [ -z "$TMUX" ] && tmux new-session
-. ~/src/gitlab/my-system-config/tools/z.sh
+. ~/src/github/my-system-config/tools/z.sh
+setxkbmap -layout cn -option ctrl:swapcaps
 #export PYENV_ROOT="$HOME/.pyenv"
 #export PATH="$PYENV_ROOT/bin:$PATH"
 #eval "$(pyenv init --path)"
@@ -222,3 +223,50 @@ bind -x '"\es\es": _ssh_fzf_complete'
 #fi
 source /usr/share/doc/fzf/examples/key-bindings.bash
 #xmodmap ~/.xmodmap 
+
+# === [System Config - Enhance cd & History] ===
+export PATH="$HOME/system-config/bin:$PATH"
+
+# cd 增强：使用 fuzzy cd
+function cd() {
+    if [[ "$1" == "" ]]; then
+        builtin cd
+    elif [[ -d "$1" ]]; then
+        builtin cd "$1"
+    else
+        # 从 .where 历史中模糊匹配
+        local target=$(grep -i "$1" ~/.cache/.where | sort -u | head -n 1)
+        if [[ -n "$target" ]]; then
+            builtin cd "$target"
+        else
+            echo "No match found in .where"
+        fi
+    fi
+    pwd >> ~/.cache/.where
+}
+# 历史记录增强：每次命令都立即写入并刷新
+export PROMPT_COMMAND='history -a; history -c; history -r'
+
+# 历史记录设置
+HISTSIZE=10000
+HISTFILESIZE=20000
+shopt -s histappend
+if test -e ~/system-config/.bashrc; then
+    . ~/system-config/.bashrc
+    # hooked up for system-config
+fi
+#export TERM=xterm
+export PATH=/usr/bin:$PATH
+export MCS=/usr/bin/mcs
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib/mono/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
+#export ANTHROPIC_AUTH_TOKEN=sk-YnSW5qWn5P3iH1BRl9D931VmpCWiNdOKIkuVD7aCEWgRsh8F
+#export ANTHROPIC_BASE_URL=https://anyrouter.top
+#export ANTHROPIC_BASE_URL=https://pmpjfbhq.cn-nb1.rainapp.top
+#export ANTHROPIC_AUTH_TOKEN=sk-nuDdZIVWApi81yEVlJpHGKBTmagilVsRj6WhPMV7gNKJyi1L
+#export ANTHROPIC_BASE_URL=https://yunwu.ai
+export OPENAI_API_KEY=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
+export OPENAI_API_BASE_URL=https://openrouter.ai/api/v1
+export OPENAI_MODEL=qwen/qwen3-coder:free
+export PATH=/home/ronghusong/.emacs.d.20250724/share/eclipse.jdt.ls/bin:$PATH
+export INFOPATH=$INFOPATH:/usr/share/info/emacs
+. "/home/ronghusong/.deno/env"

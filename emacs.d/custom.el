@@ -759,12 +759,11 @@ region or the entire buffer if no region is selected."
 
 ;; 提高调试性能
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
-;; debugger
-(add-to-list 'eglot-server-programs
-             `((java-mode java-ts-mode) .
-               ("jdtls"
-                :initializationOptions
-                (:bundles ["/home/ronghusong/.emacs.d/share/eclipse.jdt.ls/com.microsoft.java.debug.plugin-0.53.1.jar"]))))
+;; (add-to-list 'eglot-server-programs
+;;              `((java-mode java-ts-mode) .
+;;                ("jdtls"
+;;                 :initializationOptions
+;;                 (:bundles ["/home/ronghusong/.emacs.d/share/eclipse.jdt.ls/com.microsoft.java.debug.plugin-0.53.1.jar"]))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 81 go
@@ -1085,9 +1084,9 @@ where you need it."
 (global-set-key (kbd "C-c o") 'my-open-url-in-eaf)
 
 ;; proxy settings
-(setq eaf-proxy-type "http")
-(setq eaf-proxy-host "127.0.0.1")
-(setq eaf-proxy-port "18080")
+;; (setq eaf-proxy-type "http")
+;; (setq eaf-proxy-host "127.0.0.1")
+;; (setq eaf-proxy-port "18080")
 
 ;;eaf markdown dark mode exists an issue, show unclear
 (setq eaf-markdown-dark-mode nil)
@@ -1126,7 +1125,7 @@ where you need it."
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 95 evil
+;; 95 EVIL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package evil
   :init
@@ -1140,11 +1139,11 @@ where you need it."
   (define-key evil-insert-state-map (kbd "C-d") 'delete-char)
   (define-key evil-normal-state-map (kbd "C-i") 'evil-jump-forward)
   (define-key evil-normal-state-map (kbd "M-j") 'avy-goto-char)
-  (define-key evil-normal-state-map (kbd "M-w") 'avy-goto-word-1)
+  (define-key evil-normal-state-map (kbd "M-l") 'avy-goto-word-1)
   (define-key evil-insert-state-map (kbd "M-j") 'avy-goto-char)
-  (define-key evil-insert-state-map (kbd "M-w") 'avy-goto-word-1)
-  ;;(define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions)
-  ;;(define-key evil-motion-state-map (kbd "M-.") 'xref-find-definitions)
+  (define-key evil-insert-state-map (kbd "M-l") 'avy-goto-word-1)
+  ;;(define-key evil-normal-state-map (kbd "m-.") 'xref-find-definitions)
+  ;;(define-key evil-motion-state-map (kbd "m-.") 'xref-find-definitions)
   ;;(define-key evil-normal-state-map (kbd "M-.") 'eglot-find-implementation)
   ;;(define-key evil-motion-state-map (kbd "M-.") 'eglot-find-implementation)
   (define-key evil-normal-state-map (kbd "M-.") 'my-find-implementation-smart)
@@ -1160,13 +1159,13 @@ where you need it."
 (defun my-find-implementation-smart ()
   (interactive)
   (cond
-    ((eq major-mode 'go-ts-mode)
-     (call-interactively 'xref-find-definitions))
-    ((or (eq major-mode 'java-mode)
-         (eq major-mode 'eglot-java-mode)) ; 如果你使用 JDEE
-     (call-interactively 'eglot-find-implementation)) ; 或者你可能需要其他 Java 相关的跳转函数
-    (t
-      (message "当前模式不支持跳转到实现"))))
+   ((eq major-mode 'go-ts-mode)
+    (call-interactively 'xref-find-definitions))
+   ((or (eq major-mode 'java-mode)
+        (eq major-mode 'eglot-java-mode)) ; 如果你使用 JDEE
+    (call-interactively 'eglot-find-implementation)) ; 或者你可能需要其他 Java 相关的跳转函数
+   (t
+    (message "当前模式不支持跳转到实现"))))
 
 ;; Enable general.el
 (require 'general)
@@ -1291,3 +1290,16 @@ where you need it."
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (add-to-list 'org-structure-template-alist '("gp" . "src dot :file output.pdf :cmdline -Kdot -Tpdf\n"))
   )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; === [System Config - beagrep + knuth-mode] ===
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-to-list 'load-path "~/system-config/knuth-mode")
+(autoload 'knuth-find-tag "knuth-mode" nil t)
+(autoload 'knuth-grep-symbol "knuth-mode" nil t)
+
+(global-set-key (kbd "C-c t") 'knuth-find-tag)
+(global-set-key (kbd "C-c g") 'knuth-grep-symbol)
+
+;;(set-frame-font "JetBrains Mono-12" nil t)
+

@@ -1,8 +1,8 @@
 # alias defination
 alias rm='rm -i'
 alias la='ls -A'
-alias l='ls -CF'
-alias ll='ls -la'
+alias l='ls -la'
+alias ll='ls -lh'
 ## get rid of command not found ##
 alias cd..='cd ..'
 ## a quick way to get out of current directory ##
@@ -19,7 +19,7 @@ alias now='date +"%T"'
 alias nowtime=now
 alias nowdate='date +"%d-%m-%Y"'
 alias ping='ping -c 5'
-alias sc='source ~/.bashrc'
+alias sbc='source ~/.bashrc'
 
 ## shortcut  for iptables and pass it via sudo#
 alias ipt='sudo /sbin/iptables'
@@ -29,7 +29,6 @@ alias iptlist='sudo /sbin/iptables -L -n -v --line-numbers'
 alias iptlistin='sudo /sbin/iptables -L INPUT -n -v --line-numbers'
 alias iptlistout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers'
 alias iptlistfw='sudo /sbin/iptables -L FORWARD -n -v --line-numbers'
-alias firewall=iptlist
 
 # become root #
 alias root='sudo -i'
@@ -64,20 +63,20 @@ alias rf='rg --files | fzf'
 alias pf="fzf --preview='less {}' --bind shift-up:preview-page-up,shift-down:preview-page-down"
 
 # z 
-alias j='zcd'
+#alias j='zcd'
 
 # open file in explor
-alias of=xdg-open
+#alias of=xdg-open
 
 # edit with emacs
-alias e='/usr/bin/emacsclient --no-wait'
-alias ew=/usr/bin/emacsclient
+#alias e='/usr/bin/emacsclient --no-wait'
+#alias ew=/usr/bin/emacsclient
 
 # sudo apt-get install 
-alias ins='sudo apt-get install $1'
+alias apti='sudo apt install $1'
 
 # copy current path
-alias up='pwd | xclip -selection clipboard'
+#alias up='pwd | xclip -selection clipboard'
 
 # format json
 alias jf='f(){ echo "$@" | jq;  unset -f f; }; f'
@@ -86,8 +85,10 @@ alias curlx='curl -x socks5://127.0.0.1:1080 '
 alias wgetx='tsocks wget '
 
 alias v='vim -p '
+alias sv='sudo vim -p'
 alias sd='shutdown now'
-alias st='/home/ronghusong/software/tools/terminal/start-wechat.sh'
+alias st='/home/ronghusong/software/tools/terminal/start-emacs.sh'
+alias bg='beagrep -e "$1"'
 
 # search by google
 #alias s=gsearch
@@ -109,7 +110,7 @@ alias ga='git add'
 alias gc='git commit -m'
 alias gs='git status'
 alias gb='git branch'
-alias gcheckout='git checkout'
+alias gck='git checkout'
 alias gm='git merge'
 alias gpull='git pull'
 alias gpush='git push'
@@ -121,3 +122,25 @@ alias gremote='git remote'
 alias grebase='git rebase'
 # git alias end
 
+# mvn alias
+alias mi='mvn install -DskipTests'
+alias mio='mvn install -DskipTests -o'
+alias mic='mvn clean install -DskipTests -o'
+alias mp='mvn package -DskipTests'
+alias mpo='mvn package -DskipTests -o'
+alias mpc='mvn clean package -DskipTests -o'
+up() {
+    local target="$1"
+    if [ -z "$target" ]; then
+        path=$(realpath "$PWD")
+    else
+        if [ -e "$target" ]; then
+            path=$(realpath "$target")
+        else
+            echo "Error: '$target' does not exist." >&2
+            return 1
+        fi
+    fi
+    printf "%s" "$path" | xclip -selection clipboard
+    echo "Copied to clipboard: $path"
+}
